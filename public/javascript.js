@@ -576,24 +576,6 @@ const dataController = (function(e){
 
         return data
       }
-
-
-
-
-
-
-
-
-  // if(document.querySelector(".tally") !== null) {
-  //   let temp = document.querySelector(".tally").innerHTML;
-  //   console.log("temp" + temp)
-  //   let amountRead = parseInt(temp)
-  //   console.log("amountRead" + amountRead)
-  
-  //   amountRead++
-  
-  //   document.querySelector(".tally").innerHTML = amountRead
-  // }
     }
 
 
@@ -664,7 +646,7 @@ if(document.querySelector(".readlater") !== null){
 
 if(document.querySelector(".home") !== null) {
   setTimeout(function(){
-  // GetAPIData.callAccessData()
+  GetAPIData.callAccessData()
   },1000)
 
   document.querySelector(".popular").classList.add("whiteBackground")
@@ -796,14 +778,7 @@ document.querySelector(".popular").addEventListener("click", function(){
 
 document.querySelector(".readLater").addEventListener("click", function(){
  
-  // const currentURL = window.location.href
 
-  // let url = new URL(window.location.href)
-  // let params = new URLSearchParams(url.search.slice(1));
-  // // URLSearchParams.append("hello", "three")
-  // params.append('foo', 4);
-
-//  window.location.href = "/mynews"
  location.href = "/readlater#readlater"
 
 console.log(location.href)
@@ -815,15 +790,6 @@ if(document.querySelector(".loginPage") !== null){
 }
 
 
-
-// if(document.querySelector(".userError") !== null){
- 
-//   let parent = document.querySelectorAll(".form-group")[indexNumber]
-//   let child = document.querySelectorAll(".empty")[indexNumber]
-
-//   uiController.generateErrorMessage(parent,child, "User already exists")
-// }
-
 if(document.querySelector(".mess")){
   setTimeout(function(){
 
@@ -832,13 +798,6 @@ if(document.querySelector(".mess")){
   },3500)
 }
 
-
-// let titleList = document.querySelector(".articleTitleArray").innerHTML
-
-// let editedList = titleList.match(/.{1,36}/g)
-
-// // let editedList = titleList.replace("#", "\n")
-// console.log(editedList)
 
 if(document.querySelector(".registerPage") || document.querySelector(".registerPage")) {
   document.querySelector("#username").addEventListener("blur", nameValidation);
