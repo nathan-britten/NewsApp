@@ -20,18 +20,22 @@
           value="<%= popularSearches[0].popularSearch %>">
           <%  } %>
         <p class="d-inline" >
-          <a class="btn btn-info mt-4" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Options</a>
+          <a class="btn btn-info mt-4 options" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Options</a>
     
         </p>
-        <div class="collapse multi-collapse" id="multiCollapseExample1">
+  
+        <div class="collapse multi-collapse " id="multiCollapseExample1">
           <div class="filters mt-4">
             <label class="px-2 dateminLabel"for="datemin">From:</label>
             <input type="date" id="datemin" name="datemin" min="2019-01-01" max="<%= filterDate.year %>-<%= filterDate.month %>-<%= filterDate.date %>"><br>
-  
+          </div>
+          <div class="filters mt-4">
             <label class="px-3" for="datemax">To:</label>
             <input type="date" id="datemax" name="datemax" min="2020-01-01" max="<%= filterDate.year %>-<%= filterDate.month %>-<%= filterDate.date %>">
           </div>
-          <div class="languageSelect">
+
+
+          <div class="languageSelect mt-4">
             <label class="px-3" >Language</label>
             <select id="language" name="languages">
               <option value="ar">Arabic</option>

@@ -865,6 +865,4 @@ function passwordValidation(){
 }
 
 
-
-
 document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML

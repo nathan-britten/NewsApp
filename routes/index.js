@@ -20,6 +20,10 @@ router.get("/",function(req, res){
     month = "0" + month
     // month = Number(month)
   }
+  if(date < 10){
+    date = "0" + date
+    // month = Number(month)
+  }
 
   const filterDate = {
     date: date,
