@@ -62,6 +62,7 @@ app.use(indexRoutes);
 app.use(myNewsRoutes);
 app.use(readlaterRoutes);
 
-app.listen(3000, function(req, res){
-  console.log("Server online....")
-})
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
+});
