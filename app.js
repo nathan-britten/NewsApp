@@ -19,8 +19,13 @@ const indexRoutes = require("./routes/index"),
   const newsapi = new NewsAPI('67f9d041fb49469e8993de4d5414b40c');
   const app = express();
 
-  const db = "mongodb://localhost:27017/newsApp";
-  mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology:true })
+  // const db = "mongodb://localhost:27017/newsApp";
+  const db1 = "mongodb+srv://admin:<password>@newsapp-876dg.mongodb.net/test?retryWrites=true&w=majority";
+  // mongoose.connect("mongodb://localhost:27017/newsApp", { useNewUrlParser: true, useUnifiedTopology:true })
+
+  mongoose.connect("mongodb+srv://admin:Manchester1!@newsapp-876dg.mongodb.net/test?retryWrites=true&w=majority",{ useNewUrlParser: true, useUnifiedTopology:true })
+
+
   app.use(flash());
 
 //=================
