@@ -9,18 +9,18 @@
         <h2 class="text-center">My news</h2>
         <form class="form-inline my-5 justify-content-center">
 
-          <div class="searchGrid">
+        
 
-            <div class="input-group mb-3 align-middle">
+            <div class="input-group mb-3 align-middle searchGrid1">
               <div class="input-group-prepend align-middle">
                 <span class="input-group-text" id="basic-addon3">Your topics are:</span>
               </div>
-              <input type="search" class="form-control topicsDisplay" id="basic-url" aria-describedby="basic-addon3" aria-label="Enter a search phrase" value="<%= preferences %>" readonly>
-            </div>
+              <textarea  class="form-control topicsDisplay" id="basic-url" aria-describedby="basic-addon3" aria-label="Enter a search phrase" value="<%= preferences %>" readonly
+                rows="2" ></textarea>
             <div class="editChoices">
               <button type="button" class="btn btn-primary editTopicsButton ml-3">Edit</button>
             </div>
-          </div>
+            </div>
 
         </form>
   
@@ -47,9 +47,9 @@
     </div>
     <div class="container">
       <h3 class="mt-5 text-center">Your Topics</h3>
-      <form class="form-inline mt-2 mb-3 p-4 justify-content-center side-menu-form">
-        <div class="searchGrid">
-          <input class=" ml-3 form-control topicsAdd " type="search" placeholder="Enter a topic" aria-label="Enter a search phrase">
+      <form class="form-inline mt-2 mb-3 p-3 p-sm-1 justify-content-center side-menu-form">
+        <div class="searchGrid2">
+          <input class=" mr-3 form-control topicsAdd " type="search" placeholder="Enter a topic" aria-label="Enter a search phrase">
           <button type="button" class="btn btn-primary addTopicButton ml-1">Add</button>
         </div>
            

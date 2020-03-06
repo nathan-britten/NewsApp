@@ -78,34 +78,45 @@ nav{
   display: none;
 }
 
-
+textarea{
+  resize: none;
+}
 
 .side-menu-form{
   position: absolute;
   padding:30px;
   width:100%;
-top: 25%; 
+top:100px;
  transform: translateY(-25%);
  left:50%;
  transform: translateX(-50%);
 }
 
-.searchGrid{
+.editChoices {
+  align-self: center;
+}
+
+.searchGrid2 {
+
   display:grid;
   grid-template-columns: 3fr 1fr;
-  align-items: flex-start;
-  min-width: 50%;
+  align-items: center;
 
 }
-.editChoices{
-  display:grid;
+
+.editChoices {
+  grid-column: 3;
 }
+
+
 .editTopicsButton{
   justify-self: left;
 
 }
 .addTopicButton{
   justify-self: center;
+  align-self: center;
+
 
 }
 
@@ -139,7 +150,7 @@ float: none;
 .side-menu{
 position: absolute;
   width: 30%;
-  height: 90vh;
+  height: 90%;
   right:0;
     top: 10%;
     transform: translateY(-20%);
@@ -300,6 +311,10 @@ position: absolute;
 
 
 @media screen and (max-width:650px){
+
+  #smf{
+    padding:5px;
+  }
 
   .login-list ul {
     background-color: #212529;
