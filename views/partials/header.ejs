@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style.css">
+
+  <title>Newsly</title>
+</head>
+<body>
+  <div class="wrapper">
+
+  
+ 
+<nav class="nav-back fixed-top">
+ 
+    <a href="/" class="navbar-brand temp text-center">Newsly</a>
+
+    <div class="nav-list">
+      <ul class="">
+        <li class="nav-item popular" >
+          <a href="#" class="nav-link" >Popular</a>
+        </li>
+        <li class="nav-item myNews">
+          <a href="#" class="nav-link" >My News</a>
+        </li>
+        <li class="nav-item readLater" id="">
+          <a href="#" class="nav-link  " >Read Later  <% if(!activeUser){} else{ %>
+            
+            
+            
+            ( <span class="tally">0</span> ) <% } %></a>
+        </li>
+      </ul>
+    </div>
+
+
+    <div class="login-list">
+      <li class="nav-item-login padlock 
+      text-center" >
+      <% if(!activeUser){ %>
+        <i class="fas fa-lock-open"></i>
+
+     <%  } else { %>
+      <i class="fas fa-lock "></i>
+
+          <% } %>
+      </li>
+      <ul class="second-half">
+        <% if(!activeUser){ %>
+        <li class="nav-item-login" >
+          <a href="/login" class="nav-link" >Login</a>
+        </li>
+        <li class="nav-item-login" >
+          <a href="/register" class="nav-link" >Register</a>
+        </li>
+
+     <% }else { %>
+        <li class="nav-item-login extra" >
+          <a href="/logout" class="nav-link extraone" >Sign Out</a>
+        </li>
+
+        <%}%>
+
+      </ul>
+    </div>
+
+
+
+
+</nav>  
+<div class="container">
+  <% if(error && error.length >0){ %>
+  <div class="alert alert-danger mess" role="alert"><%= error %></div>
+<% } %>
+<% if(success && success.length >0){ %>
+  <div class="alert alert-success mess" role="alert"><%= success %></div>
+  <% } %>
+</div>
+
+

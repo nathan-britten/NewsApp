@@ -1,0 +1,121 @@
+<%- include("partials/header") %>
+
+      
+<div class="mynews">
+
+  <div class="container ">
+    <div class="row mx-auto mt-5 mb-2 justify-content-center ">
+      <div class=" mx-auto col-md-12">
+        <h2 class="text-center">My news</h2>
+        <form class="form-inline my-5 justify-content-center">
+
+          <div class="searchGrid">
+
+            <div class="input-group mb-3 align-middle">
+              <div class="input-group-prepend align-middle">
+                <span class="input-group-text" id="basic-addon3">Your topics are:</span>
+              </div>
+              <input type="search" class="form-control topicsDisplay" id="basic-url" aria-describedby="basic-addon3" aria-label="Enter a search phrase" value="<%= preferences %>" readonly>
+            </div>
+            <div class="editChoices">
+              <button type="button" class="btn btn-primary editTopicsButton ml-3">Edit</button>
+            </div>
+          </div>
+
+        </form>
+  
+       
+      </div>
+    </div>
+  </div>
+<div class="container"><div class="otherOutput"></div></div>
+
+  <div class="container ">
+    <div class="row myNewsOutput">
+    
+
+
+
+
+      
+    </div>
+  </div>
+
+  <div class="side-menu border border-dark rounded-lg ">
+    <div class="close-side-menu">
+      <i class="fas fa-times fa-2x"></i>
+    </div>
+    <div class="container">
+      <h3 class="mt-5 text-center">Your Topics</h3>
+      <form class="form-inline mt-2 mb-3 p-4 justify-content-center side-menu-form">
+        <div class="searchGrid">
+          <input class=" ml-3 form-control topicsAdd " type="search" placeholder="Enter a topic" aria-label="Enter a search phrase">
+          <button type="button" class="btn btn-primary addTopicButton ml-1">Add</button>
+        </div>
+           
+          <div class=" side-menu-output my-4" id="sid-men">
+            <!-- <ul class="preferences"> -->
+              <table class="table table-striped">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">Topic</th>
+                    <th scope="col">Remove</th>
+                  </tr>
+                </thead>
+                <tbody class="preferences text-center">
+
+                  <% if(preferences === undefined){ %>
+                    <%   } else { %>
+                  <% preferences.forEach(function(preference, index){ %>
+
+                    <tr>
+                      <td class="preference-item"><%= preference %></td>
+                      <td><i class="ml-3 far fa-times-circle removePreferenceButton pr-1"></i></td>
+                    </tr>
+                    
+                
+      
+                <% }) } %>
+
+
+
+
+
+                </tbody>
+
+
+              </table>
+
+
+  
+            <!-- </ul> -->
+          </div>
+          <button type="button" class="btn btn-success d-block savePreferences my-2">Save</button>
+
+      </form>
+
+
+    </div>
+    
+    
+
+  </div>
+</div>
+
+<div class="test">
+  
+</div>
+<p class="articleAmount"><%= amountOfArticles %></p>
+
+<% articleTitleArray.forEach(function(title){ %>
+
+
+  <p class="articleTitleArray"><%= title  %></p>
+
+  
+<% }) %>
+
+
+
+
+<%- include("partials/footer") %>

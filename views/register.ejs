@@ -1,0 +1,39 @@
+<%- include("partials/header") %>
+
+<div class="container text-center my-5">
+  <div class="registerPage"></div>
+  <h1 class="mt-5">Register an account</h1>
+  <h3 class="my-2 mb-5">Its free!</h3>
+
+  <form class="" action="/register" method="POST">
+  
+    <div class="form-group w-50 m-auto">
+      <input class="form-control my-2" type="text" name="username" id="username" placeholder="username">
+      <div class="invalid-feedback">
+        Name must be between 2 and 10 characters
+      </div>
+      <input class="form-control" type="password" name="password" placeholder="password" id="password">
+      <div class="invalid-feedback">
+        <ul>
+          <li>Must be atleast 8 characters long</li>
+          <li>Must contain 1 uppercase letter</li>
+          <li>No spaces</li>
+        </ul>
+      </div>
+      <div class="empty"></div>
+    
+      <button class="btn btn-success my-3 register-button">Submit</button>
+
+      <p class="loginLink"><a href="/login">Login</a></p>
+
+    </div>
+
+    
+  </form>
+
+</div>
+
+  <div class="userError"></div>
+
+ 
+<%- include("partials/footer") %>

@@ -1,0 +1,48 @@
+<%- include("partials/header") %>
+<div class="readlater">
+    <div class="container ">
+      <div class="row mx-auto my-5">
+        <div class=" mx-auto col-md-12">
+          <h2 class="text-center">Read Later</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row output my-4">
+
+        <% if(articles === undefined){} else{ %>
+        <% articles.forEach(function(article, index){ %>
+
+          <div class="col-md-4 col-6 my-2" data-readlater-<%= index %>>
+            <div class="card">
+              <img class="card-img-top" src="<%= article.image %>" alt="Card image cap" data-image-<%= index %> >
+              <div class="card-body">
+                <h5 class="card-title" data-cardtitle-<%= index %>><%= article.title %></h5>
+                <p class="card-subtitle my-2 text-muted" data-cardsubtitle-<%= index %>><%= article.date %></p>
+                <p class="card-text" data-cardtext-<%= index %>><%= article.info %></p>
+                <a href="<%= article.url %>" class="btn btn-primary" data-url-<%= index %>>Read</a>
+               <i class="far fa-times-circle btn btn-outline-danger remove" data-id="<%= article.id %>" data-test="<%= index %>"></i>
+              </div>
+          </div>
+          </div>
+
+    
+
+
+
+      
+      <%  }) } %>
+      
+        
+          </div>
+      </div>
+    </div>
+</div>
+
+<p class="articleAmount"><%= amountOfArticles %></p>
+
+
+
+
+<%- include("partials/footer") %>
