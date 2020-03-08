@@ -404,7 +404,6 @@ const dataController = (function(e){
     sendToDatabase : function(data){
 
       
-      setTimeout(function(){
         fetch("/readlater/new", {
 
           method: "POST",
@@ -421,7 +420,6 @@ const dataController = (function(e){
           console.log("THERE WAS AN ERROR")
           console.log(res)
         })
-      }, 250)
 
 
       
@@ -437,7 +435,7 @@ const dataController = (function(e){
       console.log(id)
       if(id !== undefined){
 
-        setTimeout(function(){
+   
 
           data.id = id
         fetch("/readlater/" + id, {
@@ -458,7 +456,7 @@ const dataController = (function(e){
         })
 
 
-        },1000)
+     
 
         
 
