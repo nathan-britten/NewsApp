@@ -104,6 +104,9 @@ top:100px;
 
 }
 
+
+
+
 .editChoices {
   grid-column: 3;
 }
@@ -149,15 +152,15 @@ float: none;
 
 .side-menu{
 position: absolute;
-  width: 30%;
-  height: 90%;
+  width: 50%;
+  height: 80%;
   right:0;
-    top: 10%;
-    transform: translateY(-20%);
+    top: 8%;
+    /* transform: translateY(-10%); */
     transform: translateX(100%);
     background-color:white;
   animation: appear 0.5s ease-in-out;
-  transition: 0.5s ease-in-out;
+  transition: 0s ease-in-out;
 }
 
 .menu-slidein {
@@ -165,11 +168,7 @@ position: absolute;
   transform: translateX(0%);
 }
 
-.close-side-menu{
-  position: absolute;
-  top: 3%;
-  left: 5%;
-}
+
 
 
 
@@ -265,6 +264,10 @@ position: absolute;
 
 }
 
+.collapseHolder{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 
 
 
@@ -358,8 +361,12 @@ position: absolute;
   }
 
   .card-img-top {
-    height: 35vh;
+    height: 50px;
   }
+  .card-title {
+margin:5px 0px;
+font-size: 14px;
+}
 
   .side-menu{
     position: absolute;
@@ -389,12 +396,50 @@ position: absolute;
     margin: 0px;
   }
 
+  .collapseHolder{
+    display:grid;
+    grid-template-columns: 1fr 1fr ;
+    align-items: center;
+    justify-items: center;
+  }
+  .languageSelect{
+    grid-column: 1/3;
+    justify-items: center;
+  }
+
+  .input-group-prepend {
+    display:none;
+  }
+  .topicsDisplay{
+    display: none;
+    visibility: hidden;
+  }
+  .card-subtitle {
+    display:none;
+  }
+
+  .editChoices {
+    align-self: center;
+    justify-self: center;
+    grid-column:1/3;
+  }
+
+  .searchGrid1 {
+
+    display:grid;
+    align-items: center;
+  
+  }
 
 }
 .login-menu-in{
   transform: translateX(0%);
   transition: 0.5s ease-in-out;
 }
+
+
+
+
 @media screen and (max-width:450px){
 
   nav{

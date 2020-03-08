@@ -22,17 +22,12 @@ const GetAPIData = (function(){
     }
 
     if(language === ""){
-      language = "fr"
+      language = "en"
     }
-    // fetch(`https://microsoft-azure-bing-news-search-v1.p.rapidapi.com/search?q=${searchTerm}`, {
-    //   "method": "GET",
-    //   "headers": {
-    //     "x-rapidapi-host": "microsoft-azure-bing-news-search-v1.p.rapidapi.com",
-    //     "x-rapidapi-key": "97fbdff1c6mshc4adc79937a88cbp1dfdd8jsnaac07935b8be"
-    //   }
-    // })
+    console.log(language)
+
     if(searchTerm !== ""){
-      fetch(`https://newsapi.org/v2/everything?q=${searchTerm}&from=${from}&to=${to}&sortBy=relevance&language=${language}&apiKey=67f9d041fb49469e8993de4d5414b40c`)
+      fetch(`https://newsapi.org/v2/everything?q=${searchTerm}&from=${from}&to=${to}&sortBy=relevancy&language=${language}&domains=bbc.co.uk, techcrunch.com, engadget.com, usatoday.com&apiKey=67f9d041fb49469e8993de4d5414b40c`)
       .then(function(results){
         //  console.log(results)
          return results.json()
@@ -91,7 +86,8 @@ const GetAPIData = (function(){
       const data = "";
       let apiData = "";
       preferences.forEach(function(preference){
-      fetch(`https://newsapi.org/v2/everything?q=${preference}&sortBy=relevance&apiKey=67f9d041fb49469e8993de4d5414b40c`)
+      fetch(`https://newsapi.org/v2/everything?q=${preference}&sortBy=relevancy&sources?language=$
+      en&apiKey=67f9d041fb49469e8993de4d5414b40c`)
      .then(function(res){
        return res.json()
      })
@@ -152,24 +148,24 @@ const uiController = (function(){
       populateMainPage(data);
     },
 
-   createOutput(article, index){
-
-    if(article.title === null){
+   createOutput(article, index, counter){
+    console.log(counter)
+    if(article.title === null || article.publishedAt === null || article.description === null || article.urlToImage === null){
 
     }else{
 
       output += `
 
-    <div class=" col-md-4 col-6 my-2 data-newsitem-${index}">
+    <div class="col-md-4 col-6 my-1" data-newsitem-${index}>
         <div class="card">
-          <img class="card-img-top" src="${article.urlToImage}" alt="Card image cap" data-image-${index}>
-          <div class="card-body" data-cardbody-${index}>
-          <h5 class="card-title break ow-anywhere" data-cardtitle-${index}>${article.title.substring(0,35) +"..."}</h5>
-          <p class="card-subtitle my-2 text-muted ow-anywhere" data-cardsubtitle-${index}>${article.publishedAt.substring(0,10)}</p>
-          <p class="card-text" data-cardtext-${index}>${article.description.substring(0,100)+"..."}</p>
-          <a href="${article.url}" class="btn btn-primary" data-url-${index}>Read </a>
-          <i class="btn btn-outline-success later far fa-clock" data-later-${index} data-test="${index}" data-id="${article.id}"></i>
-          <div class="emptyPlaceholder"></div>
+          <img class="card-img-top" src="${article.urlToImage}" alt="Card image cap" data-image-${index} data-counter="${counter}">
+          <div class="card-body" data-cardbody-${index} data-counter="${counter}">
+          <h5 class="card-title break ow-anywhere" data-cardtitle-${index} data-counter="${counter}">${article.title.substring(0,35) +"..."}</h5>
+          <p class="card-subtitle my-2 text-muted ow-anywhere" data-cardsubtitle-${index} data-counter="${counter}" >${article.publishedAt.substring(0,10)}</p>
+          <p class="card-text" data-cardtext-${index} data-counter="${counter}">${article.description.substring(0,100)+"..."}</p>
+          <a href="${article.url}" class="btn btn-primary" data-url-${index} data-counter="${counter}">Read </a>
+          <i class="btn btn-outline-success later far fa-clock" data-later-${index} data-test="${index}" data-counter="${counter}" data-id="${article.id}"></i>
+          <div class="emptyPlaceholder" data-placeholder-${index}></div>
         </div>
       </div>
     </div>
@@ -188,37 +184,20 @@ const uiController = (function(){
 
         data.data.articles.forEach(function(article, index){
 
+          let newGroupCounter = document.querySelectorAll(".news-group").length
           if(article.urlToImage){
 
-            contentOutput = uiController.createOutput(article, index)
-            // contentOutput += `
-            // <div class="col-md-4 col-6" data-item-id="${index}">
-            //     <div class="card">
-            //       <img class="card-img-top" src="${article.urlToImage}" alt="Card image cap">
-            //       <div class="card-body">
-            //       <h5 class="card-title" >${article.title.substring(0,35)+"..."}</h5>
-            //       <p class="card-subtitle my-2 text-muted ow-anywhere">${article.publishedAt.substring(0,10)}</p>
-            //       <p class="card-text">${article.description.substring(0,60)+"..."}</p>
-            //       <a href="${article.url}" class="btn btn-primary">Read </a>
-            //       <a class="btn btn-outline-success favourite" type="#"><i class="far fa-heart"></i></a>
-            //       <a class="btn btn-outline-success later" type="#"><i class="far fa-clock"></i></a>
-            //     </div>
-            //   </div>
-            // </div>
-            // `
+            contentOutput = uiController.createOutput(article, index, newGroupCounter)
 
           }
 
-
-
-
         })
-
+        console.log(index)
         headerOutput += `
         
         <div class="container news-group" data-id="${index}">
         <h2 class="news-heading">${data.preference}</h2>
-          <div class="row output my-4 flex-nowrap new-group-content">
+          <div class="row output my-2 flex-nowrap new-group-content">
           ${contentOutput}
          </div>
         </div>
@@ -350,15 +329,20 @@ const uiController = (function(){
     checkDbForDuplicates(e, data){
       const allTitles = document.querySelectorAll(".articleTitleArray")
       const indexNumber = e.target.dataset.test
+      const counter = e.target.dataset.counter
+
 
 
       for(let i = 0; i < allTitles.length; i++){
    
         if(data.title === allTitles[i].innerHTML){
 
+          // console.log(document.querySelectorAll(`[data-cardbody-${indexNumber}]`)[counter])
+          // console.log(document.querySelectorAll(`[data-placeholder-${indexNumber}]`)[counter])
+
           console.log("SORRY BRUV")
-          let parent = document.querySelectorAll(".card-body")[indexNumber]
-          let child = document.querySelectorAll(".emptyPlaceholder")[indexNumber]
+          let parent = document.querySelectorAll(`[data-cardbody-${indexNumber}]`)[counter]
+          let child = document.querySelectorAll(`[data-placeholder-${indexNumber}]`)[counter]
     
           uiController.generateErrorMessage(parent,child, "Already added")
         }
@@ -367,14 +351,16 @@ const uiController = (function(){
 
     checkClientForDuplicates(e){
       const indexNumber = e.target.dataset.test
+      const counter = e.target.dataset.counter
 
       for(let i = 0; i < clientTitleCheckerArray.length; i++){
    
         if(data.title === clientTitleCheckerArray[i]){
 
+
           console.log("SORRY BRUV")
-          let parent = document.querySelectorAll(".card-body")[indexNumber]
-          let child = document.querySelectorAll(".emptyPlaceholder")[indexNumber]
+          let parent = document.querySelectorAll(`[data-cardbody-${indexNumber}]`)[counter]
+          let child = document.querySelectorAll(`[data-placeholder-${indexNumber}]`)[counter]
     
           uiController.generateErrorMessage(parent,child, "Already added")
         }
@@ -555,16 +541,40 @@ const dataController = (function(e){
     },
 
     createDataForMyNews: function(e){
+      const indexNumber = e.target.dataset.test
+      const counter = e.target.dataset.counter
 
-      if(e.target.classList.contains("later") || e.target.classList.contains("remove") ){
+      let image,
+          title,
+          date,
+          info,
+          url;
 
-        const indexNumber = e.target.dataset.test
 
-        const image = document.querySelector(`[data-image-${indexNumber}]`).src;
-        const title = document.querySelector(`[data-cardtitle-${indexNumber}]`).innerHTML
-        const date = document.querySelector(`[data-cardsubtitle-${indexNumber}]`).innerHTML;
-        const info = document.querySelector(`[data-cardtext-${indexNumber}]`).innerHTML;
-        const url = document.querySelector(`[data-url-${indexNumber}]`).href;
+      if(e.target.classList.contains("later")){
+
+       
+         image = document.querySelectorAll(`[data-image-${indexNumber}]`)[counter].src;
+         title = document.querySelectorAll(`[data-cardtitle-${indexNumber}]`)[counter].innerHTML
+         date = document.querySelectorAll(`[data-cardsubtitle-${indexNumber}]`)[counter].innerHTML;
+         info = document.querySelectorAll(`[data-cardtext-${indexNumber}]`)[counter].innerHTML;
+         url = document.querySelectorAll(`[data-url-${indexNumber}]`)[counter].href;
+
+      }
+      if(e.target.classList.contains("remove")){
+
+
+         image = document.querySelector(`[data-image-${indexNumber}]`).src;
+         title = document.querySelector(`[data-cardtitle-${indexNumber}]`).innerHTML
+         date = document.querySelector(`[data-cardsubtitle-${indexNumber}]`).innerHTML;
+         info = document.querySelector(`[data-cardtext-${indexNumber}]`).innerHTML;
+         url = document.querySelector(`[data-url-${indexNumber}]`).href;
+
+
+      }
+
+
+
 
         data = {
           image: image, 
@@ -575,7 +585,7 @@ const dataController = (function(e){
         }
 
         return data
-      }
+      
     }
 
 
@@ -667,8 +677,12 @@ if(document.querySelector(".home") !== null) {
       else{
         dataController.sendPopularSearchToDb(data)
         GetAPIData.callAccessData()
+        document.querySelector(".multi-collapse").classList.remove("show")
   
       }
+
+
+
 
     })
   
@@ -683,12 +697,14 @@ let clientTitleCheckerArray = [];
   window.addEventListener("click", function(e){
     const data =  dataController.createDataForMyNews(e);
 
+    const counter = e.target.dataset.counter
 
 
     if(e.target.classList.contains("later")){
       
       if(document.querySelector(".active").innerHTML === "nobody"){
-        const indexNumber = e.target.dataset.test
+        
+      const indexNumber = e.target.dataset.test
       let parent = document.querySelectorAll(".card-body")[indexNumber]
       let child = document.querySelectorAll(".emptyPlaceholder")[indexNumber]
 
@@ -836,7 +852,7 @@ if(document.querySelector(".registerPage") || document.querySelector(".registerP
 function nameValidation(){
 console.log("hello")
   const name = document.querySelector("#username");
-  const re = /^[a-zA-Z0-9]{3,10}$/;
+  const re = /^[a-zA-Z0-9]{1,10}$/;
 
   if(!re.test(name.value)){
     name.classList.remove("is-valid")
@@ -851,8 +867,8 @@ function passwordValidation(){
  
   const password = document.querySelector("#password");
 
-  const re =/(?=.*[A-Z])(?!.\n)(?!.*\s).{8,}/;
-  // const re =/[a-z0-9]/;
+  // const re =/(?=.*[A-Z])(?!.\n)(?!.*\s).{8,}/;
+  const re =/[a-z0-9]/;
 
   if(!re.test(password.value)){
     password.classList.remove("is-valid")

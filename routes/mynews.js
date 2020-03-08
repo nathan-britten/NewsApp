@@ -40,13 +40,14 @@ router.get("/mynews",isLoggedIn,function(req,res){
 
 
 
-
+      
 
 
     res.render("mynews", {
       preferences: preferences,
       amountOfArticles: amountOfArticles,
-      articleTitleArray: articleTitleArray
+      articleTitleArray: articleTitleArray,
+      active: req.user.username
     })
     }
   })
