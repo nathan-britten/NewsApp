@@ -904,7 +904,7 @@ if(document.querySelector(".registerPage") || document.querySelector(".registerP
 function nameValidation(){
 console.log("hello")
   const name = document.querySelector("#username");
-  const re = /^[a-zA-Z0-9]{1,10}$/;
+  const re = /^[a-zA-Z0-9_@./#&+-]{1,25}$/;
 
   if(!re.test(name.value)){
     name.classList.remove("is-valid")
@@ -919,8 +919,8 @@ function passwordValidation(){
  
   const password = document.querySelector("#password");
 
-  // const re =/(?=.*[A-Z])(?!.\n)(?!.*\s).{8,}/;
-  const re =/[a-z0-9]/;
+  const re =/(?=.*[A-Z])(?!.\n)(?!.*\s).{8,}/;
+  // const re =/[a-z0-9]/;
 
   if(!re.test(password.value)){
     password.classList.remove("is-valid")
