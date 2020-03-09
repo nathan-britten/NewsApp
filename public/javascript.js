@@ -26,8 +26,11 @@ const GetAPIData = (function(){
     }
     console.log(language)
 
+    // domains=bbc.co.uk,techcrunch.com,engadget.com,usatoday.com,sky.com,theguardian.com,skysports.com,football365.com,abcnews.go.com,abc.net.au,aljazeera.com,apnews.com,bbc.co.uk/sport,businessinsider.com,cbsnews.com,cnbc.com,news.google.com,nbcnews.com,huffingtonpost.com,theverge.com,washingtonpost.com,time.com,wired.com
+
+
     if(searchTerm !== ""){
-      fetch(`https://newsapi.org/v2/everything?q=${searchTerm}&from=${from}&to=${to}&sortBy=relevancy&language=${language}&domains=bbc.co.uk,techcrunch.com,engadget.com,usatoday.com,sky.com,theguardian.com,skysports.com,football365.com,abcnews.go.com,abc.net.au,aljazeera.com,apnews.com,bbc.co.uk/sport,businessinsider.com,cbsnews.com,cnbc.com,news.google.com,nbcnews.com,huffingtonpost.com,theverge.com,washingtonpost.com,time.com,wired.com&apiKey=67f9d041fb49469e8993de4d5414b40c`)
+      fetch(`https://newsapi.org/v2/everything?q=${searchTerm}&from=${from}&to=${to}&sortBy=popularity&language=${language}&apiKey=67f9d041fb49469e8993de4d5414b40c`)
       .then(function(results){
         //  console.log(results)
          return results.json()
