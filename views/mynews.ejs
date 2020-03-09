@@ -7,16 +7,9 @@
     <div class="row mx-auto mt-5 mb-2 justify-content-center ">
       <div class=" mx-auto col-md-12">
         <h2 class="text-center">My news</h2>
-        <form class="form-inline my-5 justify-content-center">
+        <form class="form-inline my-2 justify-content-center">
 
-        
 
-            <div class="input-group mb-3 align-middle searchGrid1">
-              <div class="input-group-prepend align-middle">
-                <span class="input-group-text" id="basic-addon3">Your topics are:</span>
-              </div>
-              <textarea  class="form-control topicsDisplay" id="basic-url" aria-describedby="basic-addon3" aria-label="Enter a search phrase" value="<%= preferences %>" readonly
-                rows="2" ></textarea>
             <div class="editChoices">
               <button type="button" class="btn btn-primary editTopicsButton ml-3">Edit</button>
             </div>
@@ -119,6 +112,8 @@
   <p class="mini">Username: <span class="active"><%= active %></span></h1>
 <% } else {} %>
 
+<textarea  class="form-control topicsDisplay" id="basic-url" aria-describedby="basic-addon3" aria-label="Enter a search phrase" value="<%= preferences %>" readonly
+  rows="2" ></textarea>
 
 
 <%- include("partials/footer") %>

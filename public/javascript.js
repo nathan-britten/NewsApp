@@ -16,7 +16,7 @@ const GetAPIData = (function(){
       let date = todaysDate.getDate()
       let month = todaysDate.getMonth();
       let year = todaysDate.getFullYear();
-
+      month += 1
       from = `${year}-${month}-${date}`
       to = `${year}-${month}-${date}`
     }
@@ -27,7 +27,7 @@ const GetAPIData = (function(){
     console.log(language)
 
     if(searchTerm !== ""){
-      fetch(`https://newsapi.org/v2/everything?q=${searchTerm}&from=${from}&to=${to}&sortBy=relevancy&language=${language}&domains=bbc.co.uk, techcrunch.com, engadget.com, usatoday.com&apiKey=67f9d041fb49469e8993de4d5414b40c`)
+      fetch(`https://newsapi.org/v2/everything?q=${searchTerm}&from=${from}&to=${to}&sortBy=relevancy&language=${language}&domains=bbc.co.uk,techcrunch.com,engadget.com,usatoday.com,sky.com,theguardian.com,skysports.com,football365.com,abcnews.go.com,abc.net.au,aljazeera.com,apnews.com,bbc.co.uk/sport,businessinsider.com,cbsnews.com,cnbc.com,news.google.com,nbcnews.com,huffingtonpost.com,theverge.com,washingtonpost.com,time.com,wired.com&apiKey=67f9d041fb49469e8993de4d5414b40c`)
       .then(function(results){
         //  console.log(results)
          return results.json()
@@ -86,7 +86,7 @@ const GetAPIData = (function(){
       const data = "";
       let apiData = "";
       preferences.forEach(function(preference){
-      fetch(`https://newsapi.org/v2/everything?q=${preference}&sortBy=relevancy&sources?language=$
+      fetch(`https://newsapi.org/v2/everything?q=${preference}&sortBy=relevancy&sources?language=
       en&apiKey=67f9d041fb49469e8993de4d5414b40c`)
      .then(function(res){
        return res.json()
@@ -149,7 +149,6 @@ const uiController = (function(){
     },
 
    createOutput(article, index, counter){
-    console.log(counter)
     if(article.title === null || article.publishedAt === null || article.description === null || article.urlToImage === null){
 
     }else{
@@ -164,7 +163,7 @@ const uiController = (function(){
           <p class="card-subtitle my-2 text-muted ow-anywhere" data-cardsubtitle-${index} data-counter="${counter}" >${article.publishedAt.substring(0,10)}</p>
           <p class="card-text" data-cardtext-${index} data-counter="${counter}">${article.description.substring(0,100)+"..."}</p>
           <a href="${article.url}" class="btn btn-primary" data-url-${index} data-counter="${counter}">Read </a>
-          <i class="btn btn-outline-success later far fa-clock" data-later-${index} data-test="${index}" data-counter="${counter}" data-id="${article.id}"></i>
+          <i class="btn  later far fa-clock" data-later-${index} data-test="${index}" data-counter="${counter}" data-id="${article.id}"></i>
           <div class="emptyPlaceholder" data-placeholder-${index}></div>
         </div>
       </div>
@@ -192,7 +191,7 @@ const uiController = (function(){
           }
 
         })
-        console.log(index)
+      
         headerOutput += `
         
         <div class="container news-group" data-id="${index}">
@@ -214,6 +213,7 @@ const uiController = (function(){
 
 
       document.querySelector(".myNewsOutput").innerHTML += headerOutput;
+      uiController.showNoPreferencesMessage()
 
 
       // document.querySelector(".new-group-content").innerHTML = contentOutput;
@@ -337,14 +337,30 @@ const uiController = (function(){
    
         if(data.title === allTitles[i].innerHTML){
 
-          // console.log(document.querySelectorAll(`[data-cardbody-${indexNumber}]`)[counter])
-          // console.log(document.querySelectorAll(`[data-placeholder-${indexNumber}]`)[counter])
+          if(document.querySelector(".home")!== null || document.querySelectorAll(".news-group").length === 1 ){
+            console.log(indexNumber)
+            console.log("SORRY BRUV")
+            let parent = document.querySelector(`[data-cardbody-${indexNumber}]`)
+            let child = document.querySelector(`[data-placeholder-${indexNumber}]`)
+      
+            uiController.generateErrorMessage(parent,child, "Already added")
 
-          console.log("SORRY BRUV")
-          let parent = document.querySelectorAll(`[data-cardbody-${indexNumber}]`)[counter]
-          let child = document.querySelectorAll(`[data-placeholder-${indexNumber}]`)[counter]
-    
-          uiController.generateErrorMessage(parent,child, "Already added")
+
+          } else {
+            console.log("SORRY BRUV")
+            let parent = document.querySelectorAll(`[data-cardbody-${indexNumber}]`)[counter]
+            let child = document.querySelectorAll(`[data-placeholder-${indexNumber}]`)[counter]
+      
+            uiController.generateErrorMessage(parent,child, "Already added")
+
+
+
+
+          }
+
+
+
+
         }
       }
      },
@@ -357,23 +373,37 @@ const uiController = (function(){
    
         if(data.title === clientTitleCheckerArray[i]){
 
+          if(document.querySelector(".home")!== null || document.querySelectorAll(".news-group").length === 1 ){
+            console.log("SORRY BRUV")
+            console.log(indexNumber)
+            let parent = document.querySelector(`[data-cardbody-${indexNumber}]`)
+            let child = document.querySelector(`[data-placeholder-${indexNumber}]`)
+      
+            uiController.generateErrorMessage(parent,child, "Already added")
 
-          console.log("SORRY BRUV")
-          let parent = document.querySelectorAll(`[data-cardbody-${indexNumber}]`)[counter]
-          let child = document.querySelectorAll(`[data-placeholder-${indexNumber}]`)[counter]
-    
-          uiController.generateErrorMessage(parent,child, "Already added")
+          } else {
+
+            console.log("SORRY BRUV")
+            let parent = document.querySelector(`[data-cardbody-${indexNumber}]`)[counter]
+            let child = document.querySelector(`[data-placeholder-${indexNumber}]`)[counter]
+      
+            uiController.generateErrorMessage(parent,child, "Already added")
+
+          }
+
+
         }
       }
 
      },
 
      showNoPreferencesMessage(){
-      console.log(document.querySelector(".topicsDisplay").value)
-      
-      if(document.querySelector(".topicsDisplay").value === "") {
+  
+    
+      if(document.querySelector(".news-group") === null && !document.querySelector(".preferenceMessage")) {
 
-        if(document.querySelector(".preferenceMessage")){} else{
+
+
         let h3 = document.createElement("h3")
         let text = document.createTextNode("Add some topics to get started")
         h3.classList.add("text-center")
@@ -382,13 +412,19 @@ const uiController = (function(){
 
         console.log(h3)
         document.querySelector(".otherOutput").appendChild(h3)
-        }
-      } 
-       if(document.querySelector(".topicsDisplay").value !== "" && document.querySelector(".preferenceMessage") !== null) {
+        
+
+        document.querySelector(".editTopicsButton").innerHTML = "Add"
+
+      } else {
+
+        document.querySelector(".editTopicsButton").innerHTML = "Edit"
 
         document.querySelector(".preferenceMessage").remove()
 
+
       }
+
      }
 
 
@@ -403,8 +439,8 @@ const dataController = (function(e){
   return{
     sendToDatabase : function(data){
 
-      
-        fetch("/readlater/new", {
+
+        fetch("/readlater", {
 
           method: "POST",
           body: JSON.stringify(data),
@@ -414,7 +450,7 @@ const dataController = (function(e){
           }
         })
         .then(function(res){
-          // console.log(res)
+          console.log(res)
         })
         .catch(function(res){
           console.log("THERE WAS AN ERROR")
@@ -426,9 +462,7 @@ const dataController = (function(e){
 
 
 
-      
-
-
+  
     },
 
     removeFromDatabase: function(data, id){
@@ -448,9 +482,8 @@ const dataController = (function(e){
           }
         })
         .then(function(res){
-          console.log(res)
+          // console.log(res)
         })
- 
         .catch(function(res){
           console.log(res)
         })
@@ -492,11 +525,11 @@ const dataController = (function(e){
         }
       })
       .then(function(res){
-        // console.log(res)
+        console.log(res)
       })
       .catch(function(res){
-        console.log("THERE WAS AN ERROR")
-        console.log(res)
+        // console.log("THERE WAS AN ERROR")
+        // console.log(res)
       })
 
 
@@ -550,15 +583,37 @@ const dataController = (function(e){
 
 
       if(e.target.classList.contains("later")){
+        // console.log("hello")
+        e.target.classList.toggle("later-active")
 
+        setTimeout(function(){
+          e.target.classList.toggle("later-active")
+        },150)
        
-         image = document.querySelectorAll(`[data-image-${indexNumber}]`)[counter].src;
-         title = document.querySelectorAll(`[data-cardtitle-${indexNumber}]`)[counter].innerHTML
-         date = document.querySelectorAll(`[data-cardsubtitle-${indexNumber}]`)[counter].innerHTML;
-         info = document.querySelectorAll(`[data-cardtext-${indexNumber}]`)[counter].innerHTML;
-         url = document.querySelectorAll(`[data-url-${indexNumber}]`)[counter].href;
+        if(document.querySelector(".home") !== null){
+
+          image = document.querySelector(`[data-image-${indexNumber}]`).src;
+          title = document.querySelector(`[data-cardtitle-${indexNumber}]`).innerHTML
+          date = document.querySelector(`[data-cardsubtitle-${indexNumber}]`).innerHTML;
+          info = document.querySelector(`[data-cardtext-${indexNumber}]`).innerHTML;
+          url = document.querySelector(`[data-url-${indexNumber}]`).href;
+          
+        } else  {
+
+
+          image = document.querySelectorAll(`[data-image-${indexNumber}]`)[counter].src;
+          title = document.querySelectorAll(`[data-cardtitle-${indexNumber}]`)[counter].innerHTML
+          date = document.querySelectorAll(`[data-cardsubtitle-${indexNumber}]`)[counter].innerHTML;
+          info = document.querySelectorAll(`[data-cardtext-${indexNumber}]`)[counter].innerHTML;
+          url = document.querySelectorAll(`[data-url-${indexNumber}]`)[counter].href;
+
+        }
+
 
       }
+
+
+
       if(e.target.classList.contains("remove")){
 
 
@@ -581,7 +636,7 @@ const dataController = (function(e){
           info: info,
           url: url
         }
-
+        // console.log(data)
         return data
       
     }
@@ -601,13 +656,12 @@ window.addEventListener("keydown", function(e){
 })
 
 if(document.querySelector(".mynews") !== null){
-
-  document.querySelector(".topicsDisplay").addEventListener("keyup",function(e){
-    e.preventDefault()
-  })
+  uiController.showNoPreferencesMessage()
 
 
-  uiController.showNoPreferencesMessage();
+
+
+
 
 
   document.querySelector(".myNews").classList.add("whiteBackground")
@@ -622,8 +676,7 @@ if(document.querySelector(".mynews") !== null){
     dataController.addPreferenceToDb()
     GetAPIData.retrievePreferencesFromAPI()
     uiController.toggleSideMenu()
-    uiController.showNoPreferencesMessage();
-
+    uiController.showNoPreferencesMessage()
   })
   
   document.querySelector(".addTopicButton").addEventListener("click", function(e){
@@ -808,6 +861,7 @@ if(document.querySelector(".mess")){
   setTimeout(function(){
 
     document.querySelector(".mess").classList.add("hide")
+    document.querySelector(".mess").remove()
 
   },3500)
 }
@@ -880,3 +934,4 @@ function passwordValidation(){
 
 
 document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML
+

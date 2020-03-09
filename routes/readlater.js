@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport")
 const User = require("../models/user")
+// var timeout = express.timeout // express v3 and below
+
+
 
 //======================
 //Read Later 
@@ -59,8 +62,9 @@ router.get("/readLater",isLoggedIn ,function(req, res){
 
 })
 
-router.post("/readlater/new",isLoggedIn ,function(req, res){
- 
+router.post("/readlater" ,function(req, res){
+
+
   User.findOne({"username": req.user.username}, function(err, user){
     if(err){
       console.log(err)
@@ -94,42 +98,24 @@ router.post("/readlater/new",isLoggedIn ,function(req, res){
         user.save(function(err, user){
           if(err){
             console.log(err)
+            console.log()
           } else {
+            console.log("RL Added...")
             // console.log(user)
+            res.send("thanks")
+
           }
         })
 
       }
-
-
-
-  
-
     }
   })
 
-
-
-  // console.log(req.body)
-  // ReadLater.create({
-  //   image: req.body.image,
-  //   title: req.body.title,
-  //   date: req.body.date,
-  //   info: req.body.info,
-  //   url: req.body.url
-  // }, function(err, addedArticle){
-  //   if(err){
-  //     console.log(err)
-  //   } else {
-  // console.log("res") 
-  //  }
-  // })
-
 })
 
-router.get("/readlater/:id",isLoggedIn, function(req, res){
-  res.send("Page for article")
-})
+// router.get("/readlater/:id",isLoggedIn, function(req, res){
+//   res.send("Page for article")
+// })
 
 
 router.delete("/readlater/:id",isLoggedIn ,function(req,res){
@@ -149,7 +135,8 @@ router.delete("/readlater/:id",isLoggedIn ,function(req,res){
             if(err){
               console.log(err)
             } else{
-              console.log(user)
+              console.log("RL DELEted....")
+              res.send("thanks")
             }
           })
         }
@@ -160,7 +147,6 @@ router.delete("/readlater/:id",isLoggedIn ,function(req,res){
 
 
 
-      console.log(user.readLater[0])
     }
   })
 

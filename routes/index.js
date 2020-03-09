@@ -107,7 +107,7 @@ router.get("/",function(req, res){
 
 })
 
-router.post("/new", function(req, res){
+router.post("/new", isLoggedIn, function(req, res){
  
   console.log(req.body)
 

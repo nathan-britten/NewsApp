@@ -10,6 +10,8 @@ const express       = require("express"),
       User = require("./models/user"),
       url = require("url"),
       flash = require("connect-flash")
+    // timeout = require('connect-timeout'); //express v4
+
 
 const indexRoutes = require("./routes/index"),
       myNewsRoutes = require("./routes/mynews"),
@@ -22,6 +24,14 @@ const indexRoutes = require("./routes/index"),
   // const db = "mongodb://localhost:27017/newsApp";
   // const db1 = "mongodb+srv://admin:<password>@newsapp-876dg.mongodb.net/test?retryWrites=true&w=majority";
   // mongoose.connect("mongodb://localhost:27017/newsApp", { useNewUrlParser: true, useUnifiedTopology:true })
+
+  // app.use(timeout(10000));
+  // app.use(haltOnTimedout);
+  
+  // function haltOnTimedout(req, res, next){
+  //   if (!req.timedout) next();
+  // }
+
 
   mongoose.connect("mongodb+srv://admin:Manchester1!@newsapp-876dg.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology:true })
 
