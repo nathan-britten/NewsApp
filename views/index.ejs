@@ -80,6 +80,9 @@
 
 </div>
 
+
+<p class="articleAmount"><%= amountOfArticles %></p>
+
 <% articleTitleArray.forEach(function(title){ %>
 
 
@@ -87,13 +90,17 @@
 
   
 <% }) %>
-
-<p class="articleAmount"><%= amountOfArticles %></p>
-
 <% if(active){ %>
 
   <p class="mini">Username: <span class="active"><%= active %></span></h1>
 <% } else {} %>
+
+
+
+
+
+
+
 
 
 
