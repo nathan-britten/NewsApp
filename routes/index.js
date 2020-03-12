@@ -48,7 +48,7 @@ router.get("/",function(req, res){
 
 
           amountOfArticles = user.readLater.length
-   
+          console.log(amountOfArticles)
           allArticles = user.readLater
          for(let i=0; i<allArticles.length; i++){
      
