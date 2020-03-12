@@ -935,6 +935,11 @@ function passwordValidation(){
 
 }
 
+if(document.querySelector(".tally").innerHTML === ""){
 
-document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML
+  document.querySelector(".tally").innerHTML = 0
+} else {
+  document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML
+}
+
 
