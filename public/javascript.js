@@ -937,7 +937,7 @@ function passwordValidation(){
 
 
 
-window.addEventListener("load", (event) => {
+
 
   setTimeout(() => {
     console.log(document.querySelector(".tally").innerHTML)
@@ -948,7 +948,7 @@ window.addEventListener("load", (event) => {
       document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML
     }
 
-  }, 1000)
+
 
 
 

@@ -36,28 +36,30 @@ router.get("/",function(req, res){
   let amountOfArticles;
 
   if(req.user !== undefined){
+    console.log(true + "1")
 
     User.findOne({"username": req.user.username}, function(err, user){
       if(err){
         console.log(err)
       } else {
-        // console.log(user.readLater)
-
-
+        console.log(true + "2")
         if(user.readLater !== undefined){
+          console.log(true + "3")
 
 
           amountOfArticles = user.readLater.length
-          console.log(amountOfArticles)
           allArticles = user.readLater
          for(let i=0; i<allArticles.length; i++){
      
            articleTitleArray.push(user.readLater[i].title)
          }
+
+         console.log("normal index", amountOfArticles)
+
        } else {
         amountOfArticles = 0;
         allArticles = [];
-   
+        console.log("error", amountOfArticles)
        }
 
       }
@@ -65,41 +67,49 @@ router.get("/",function(req, res){
     
   }
 
-  PopularSearch.find({}, function(err, popularSearches){
+  setTimeout(() => {
 
-    if(err){
-      console.log(err)
-    } else {
+    PopularSearch.find({}, function(err, popularSearches){
 
-      if(req.user !== undefined){
-
-        res.render("index", {
-          filterDate: filterDate,
-          popularSearches: popularSearches,
-          amountOfArticles: amountOfArticles,
-          articleTitleArray: articleTitleArray,
-          active: req.user.username
-        })
+      if(err){
+        console.log(err)
       } else {
-
-        res.render("index", {
-          filterDate: filterDate,
-          popularSearches: popularSearches,
-          amountOfArticles: amountOfArticles,
-          articleTitleArray: articleTitleArray,
-          active: "nobody"
-        })
-
-
+  
+        if(req.user !== undefined){
+          console.log("user loggedin", amountOfArticles)
+  
+          res.render("index", {
+            filterDate: filterDate,
+            popularSearches: popularSearches,
+            amountOfArticles: amountOfArticles,
+            articleTitleArray: articleTitleArray,
+            active: req.user.username
+          })
+        } else {
+          console.log("user notloggedin", amountOfArticles)
+  
+          res.render("index", {
+            filterDate: filterDate,
+            popularSearches: popularSearches,
+            amountOfArticles: amountOfArticles,
+            articleTitleArray: articleTitleArray,
+            active: "nobody"
+          })
+  
+  
+        }
+        
+  
+  
+  
       }
-      
+  
+  
+    })
+
+  },1000)
 
 
-
-    }
-
-
-  })
 
 
 

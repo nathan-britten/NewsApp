@@ -22,7 +22,7 @@ router.get("/readLater",isLoggedIn ,function(req, res){
 
 
         amountOfArticles = user.readLater.length
- 
+        console.log("normal rl", amountOfArticles)
         allArticles = user.readLater
        for(let i=0; i<allArticles.length; i++){
    
@@ -31,7 +31,8 @@ router.get("/readLater",isLoggedIn ,function(req, res){
      } else {
         amountOfArticles = 0;
         allArticles = [];
- 
+        console.log("error", amountOfArticles)
+
      }
 
 
