@@ -939,11 +939,17 @@ function passwordValidation(){
 
 window.addEventListener("load", (event) => {
 
-  if(document.querySelector(".tally").innerHTML === ""){
+  setTimeout(() => {
+    console.log(document.querySelector(".tally").innerHTML)
+    if(document.querySelector(".tally").innerHTML === ""){
 
-    document.querySelector(".tally").innerHTML = 0
-  } else {
-    document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML
-  }
+      document.querySelector(".tally").innerHTML = 0
+    } else {
+      document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML
+    }
+
+  }, 1000)
+
+
 
 })
