@@ -24,43 +24,34 @@ const GetAPIData = (function(){
     if(language === ""){
       language = "en"
     }
-    console.log(language)
 
     // domains=bbc.co.uk,techcrunch.com,engadget.com,usatoday.com,sky.com,theguardian.com,skysports.com,football365.com,abcnews.go.com,abc.net.au,aljazeera.com,apnews.com,bbc.co.uk/sport,businessinsider.com,cbsnews.com,cnbc.com,news.google.com,nbcnews.com,huffingtonpost.com,theverge.com,washingtonpost.com,time.com,wired.com
 
 
     if(searchTerm !== ""){
-      fetch(`https://newsapi.org/v2/everything?q=${searchTerm}&from=${from}&to=${to}&sortBy=popularity&language=${language}&apiKey=67f9d041fb49469e8993de4d5414b40c`)
+      fetch(`https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI?toPublishedDate=${to}&fromPublishedDate=${from}&pageSize=20&q=${searchTerm}&autoCorrect=false&pageNumber=1`, {
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
+          "x-rapidapi-key": "968aeec7admsh8c32bd4563bb621p11f37bjsn4e9bc28d4cf1"
+        }
+      })
       .then(function(results){
-        //  console.log(results)
          return results.json()
       })
         .then(function(data){
           if(data.totalResults === 0){
-            console.log("hello")
 
             let parent = document.querySelector(".popularSearch")
             let child = document.querySelector(".d-inline")
       
             uiController.generateErrorMessage(parent,child, "No matching news articles")
-
-
-          } else {
-
           }
           uiController.callPopulateMainPage(data);
-          console.log(data)
         })
         .catch(function(err){
           console.log(err)
         })
-    } else {
-
-
-
-
-
-
     }
 
   }
@@ -89,8 +80,13 @@ const GetAPIData = (function(){
       const data = "";
       let apiData = "";
       preferences.forEach(function(preference){
-      fetch(`https://newsapi.org/v2/everything?q=${preference}&sortBy=relevancy&sources?language=
-      en&apiKey=67f9d041fb49469e8993de4d5414b40c`)
+      fetch(`https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI?toPublishedDate=null&fromPublishedDate=null&pageSize=10&q=${preference}&autoCorrect=false&pageNumber=1`, {
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
+          "x-rapidapi-key": "968aeec7admsh8c32bd4563bb621p11f37bjsn4e9bc28d4cf1"
+        }
+      })
      .then(function(res){
        return res.json()
      })
@@ -104,11 +100,6 @@ const GetAPIData = (function(){
 
           uiController.populateMyNewsPage(data)
 
-          // apiData = data;
-          // emptyArray.push(apiData)
-          // console.log(emptyArray)
-          // console.log(emptyArray)
-          // console.log(emptyArray.length)
 
         })
         .catch(err => {
@@ -131,13 +122,15 @@ const uiController = (function(){
 
   const populateMainPage = function(data){
     output = "";
-    console.log(data.articles)
-    data.articles.forEach(function(article, index){
 
-      if(!article.urlToImage){
-        article.urlToImage = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+
+    data.value.forEach(function(article, index){
+
+      if(!article.image.webpageUrl){
+        article.image.webpageUrl = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
       }
-      if(article.urlToImage){
+
+      if(article.image.webpageUrl){
         uiController.createOutput(article, index)
       }
 
@@ -152,18 +145,18 @@ const uiController = (function(){
     },
 
    createOutput(article, index, counter){
-    if(article.title === null || article.publishedAt === null || article.description === null || article.urlToImage === null){
+    if(article.title === null || article.publishedAt === null || article.description === null){
 
     }else{
-
+      article.image.webpageUrl = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
       output += `
 
     <div class="col-md-4 col-6 my-1" data-newsitem-${index}>
         <div class="card">
-          <img class="card-img-top" src="${article.urlToImage}" alt="Card image cap" data-image-${index} data-counter="${counter}">
+          <img class="card-img-top" src="${article.image.webpageUrl}" alt="Card image cap" data-image-${index} data-counter="${counter}">
           <div class="card-body" data-cardbody-${index} data-counter="${counter}">
           <h5 class="card-title break ow-anywhere" data-cardtitle-${index} data-counter="${counter}">${article.title.substring(0,35) +"..."}</h5>
-          <p class="card-subtitle my-2 text-muted ow-anywhere" data-cardsubtitle-${index} data-counter="${counter}" >${article.publishedAt.substring(0,10)}</p>
+          <p class="card-subtitle my-2 text-muted ow-anywhere" data-cardsubtitle-${index} data-counter="${counter}" >${article.datePublished.substring(0,10)}</p>
           <p class="card-text" data-cardtext-${index} data-counter="${counter}">${article.description.substring(0,100)+"..."}</p>
           <a href="${article.url}" class="btn btn-primary" data-url-${index} data-counter="${counter}">Read </a>
           <i class="btn  later far fa-clock" data-later-${index} data-test="${index}" data-counter="${counter}" data-id="${article.id}"></i>
@@ -182,15 +175,12 @@ const uiController = (function(){
       let headerOutput = "";
       let contentOutput = "";
        output = "";
-      console.log(data.data.articles)
 
-        data.data.articles.forEach(function(article, index){
+        data.data.value.forEach(function(article, index){
 
           let newGroupCounter = document.querySelectorAll(".news-group").length
-          if(article.urlToImage){
-
+          if(article.image){
             contentOutput = uiController.createOutput(article, index, newGroupCounter)
-
           }
 
         })
@@ -232,7 +222,7 @@ const uiController = (function(){
     
         let input = document.querySelector(".topicsAdd").value
         if(input !== ""){
-          console.log(input)
+
           let count = document.querySelectorAll(".preference-item").length + 1
           input[0].toUpperCase()
           const output = `
@@ -294,12 +284,11 @@ const uiController = (function(){
         newItem.appendChild(text)
   
 
-  
         parent.insertBefore(newItem, child)
         
         setTimeout(function(){
           newItem.remove()
-        },2500)
+        },1000)
 
       } 
 
@@ -341,8 +330,7 @@ const uiController = (function(){
         if(data.title === allTitles[i].innerHTML){
 
           if(document.querySelector(".home")!== null || document.querySelectorAll(".news-group").length === 1 ){
-            console.log(indexNumber)
-            console.log("SORRY BRUV")
+
             let parent = document.querySelector(`[data-cardbody-${indexNumber}]`)
             let child = document.querySelector(`[data-placeholder-${indexNumber}]`)
       
@@ -350,7 +338,7 @@ const uiController = (function(){
 
 
           } else {
-            console.log("SORRY BRUV")
+
             let parent = document.querySelectorAll(`[data-cardbody-${indexNumber}]`)[counter]
             let child = document.querySelectorAll(`[data-placeholder-${indexNumber}]`)[counter]
       
@@ -377,19 +365,15 @@ const uiController = (function(){
         if(data.title === clientTitleCheckerArray[i]){
 
           if(document.querySelector(".home")!== null || document.querySelectorAll(".news-group").length === 1 ){
-            console.log("SORRY BRUV")
-            console.log(indexNumber)
+
             let parent = document.querySelector(`[data-cardbody-${indexNumber}]`)
             let child = document.querySelector(`[data-placeholder-${indexNumber}]`)
       
             uiController.generateErrorMessage(parent,child, "Already added")
 
           } else {
-
-            console.log("SORRY BRUV")
-            let parent = document.querySelector(`[data-cardbody-${indexNumber}]`)[counter]
-            let child = document.querySelector(`[data-placeholder-${indexNumber}]`)[counter]
-      
+            let parent = document.querySelector(`[data-cardbody-${indexNumber}]`)
+            let child = document.querySelector(`[data-placeholder-${indexNumber}]`)
             uiController.generateErrorMessage(parent,child, "Already added")
 
           }
@@ -413,7 +397,7 @@ const uiController = (function(){
         h3.classList.add("preferenceMessage")
         h3.appendChild(text)
 
-        console.log(h3)
+
         document.querySelector(".otherOutput").appendChild(h3)
         
 
@@ -421,9 +405,11 @@ const uiController = (function(){
 
       } else {
 
-        document.querySelector(".editTopicsButton").innerHTML = "Edit"
 
-        document.querySelector(".preferenceMessage").remove()
+        document.querySelector(".editTopicsButton").innerHTML = "Edit"
+        if(document.querySelector(".preferenceMessage")) {
+          document.querySelector(".preferenceMessage").remove()
+        }
 
 
       }
@@ -456,25 +442,14 @@ const dataController = (function(e){
           console.log(res)
         })
         .catch(function(res){
-          console.log("THERE WAS AN ERROR")
           console.log(res)
         })
-
-
-      
-
-
-
-  
     },
 
     removeFromDatabase: function(data, id){
-      console.log(id)
       if(id !== undefined){
 
-   
-
-          data.id = id
+        data.id = id
         fetch("/readlater/" + id, {
 
           method: "DELETE",
@@ -485,19 +460,12 @@ const dataController = (function(e){
           }
         })
         .then(function(res){
-          // console.log(res)
+          console.log(res)
         })
         .catch(function(res){
           console.log(res)
         })
-
-
-     
-
-        
-
       }
-      
     },
 
     addPreferenceToDb: function(){
@@ -513,8 +481,6 @@ const dataController = (function(e){
 
       document.querySelector(".topicsDisplay").value = preferenceArray;
 
-      console.log(preferenceArray)
-      console.log(typeof preferenceArray)
 
 
 
@@ -531,26 +497,15 @@ const dataController = (function(e){
         console.log(res)
       })
       .catch(function(res){
-        // console.log("THERE WAS AN ERROR")
-        // console.log(res)
+        console.log(res)
       })
-
-
-    // }
-
- 
-
     },
 
     sendPopularSearchToDb: function(searchValue){
 
-   
       let send = {
-
         searchValue: searchValue
       }
-
-      console.log(send)
 
       fetch("/new", {
 
@@ -562,16 +517,11 @@ const dataController = (function(e){
         }
       })
       .then(function(res){
-        // console.log(res)
+        console.log(res)
       })
       .catch(function(err){
-        // console.log("THERE WAS AN ERROR")
         console.log(err)
       })
-
-      
-      
-
     },
 
     createDataForMyNews: function(e){
@@ -586,7 +536,6 @@ const dataController = (function(e){
 
 
       if(e.target.classList.contains("later")){
-        // console.log("hello")
         e.target.classList.toggle("later-active")
 
         setTimeout(function(){
@@ -602,36 +551,23 @@ const dataController = (function(e){
           url = document.querySelector(`[data-url-${indexNumber}]`).href;
           
         } else  {
-
-
           image = document.querySelectorAll(`[data-image-${indexNumber}]`)[counter].src;
           title = document.querySelectorAll(`[data-cardtitle-${indexNumber}]`)[counter].innerHTML
           date = document.querySelectorAll(`[data-cardsubtitle-${indexNumber}]`)[counter].innerHTML;
           info = document.querySelectorAll(`[data-cardtext-${indexNumber}]`)[counter].innerHTML;
           url = document.querySelectorAll(`[data-url-${indexNumber}]`)[counter].href;
-
         }
-
-
       }
 
 
 
       if(e.target.classList.contains("remove")){
-
-
          image = document.querySelector(`[data-image-${indexNumber}]`).src;
          title = document.querySelector(`[data-cardtitle-${indexNumber}]`).innerHTML
          date = document.querySelector(`[data-cardsubtitle-${indexNumber}]`).innerHTML;
          info = document.querySelector(`[data-cardtext-${indexNumber}]`).innerHTML;
          url = document.querySelector(`[data-url-${indexNumber}]`).href;
-
-
       }
-
-
-
-
         data = {
           image: image, 
           title: title,
@@ -639,7 +575,6 @@ const dataController = (function(e){
           info: info,
           url: url
         }
-        // console.log(data)
         return data
       
     }
@@ -778,8 +713,7 @@ let clientTitleCheckerArray = [];
         uiController.increaseReadLater()
         dataController.sendToDatabase(data);
         clientTitleCheckerArray.push(data.title)
-        console.log(clientTitleCheckerArray)
-        
+  
         document.querySelector(".tally").classList.add("bigger")
         this.setTimeout(function(){
           document.querySelector(".tally").classList.remove("bigger")
@@ -795,7 +729,7 @@ let clientTitleCheckerArray = [];
 
     if(e.target.classList.contains("remove")){
       const id = e.target.getAttribute("data-id")
-      console.log(id)
+
       dataController.removeFromDatabase(data, id);
       const indexNumber = e.target.dataset.test
       document.querySelector(`[data-readlater-${indexNumber}]`).remove()
@@ -820,7 +754,7 @@ let clientTitleCheckerArray = [];
 
 
   document.querySelector(".padlock").addEventListener("click", function(){
-    console.log("hello")
+
     uiController.togglePadlockMenu()
     
   })
@@ -851,7 +785,6 @@ document.querySelector(".readLater").addEventListener("click", function(){
 
  location.href = "/readlater#readlater"
 
-console.log(location.href)
 })
  
 if(document.querySelector(".loginPage") !== null){
@@ -905,7 +838,7 @@ if(document.querySelector(".registerPage") || document.querySelector(".registerP
 
 
 function nameValidation(){
-console.log("hello")
+
   const name = document.querySelector("#username");
   const re = /^[a-zA-Z0-9_@./#&+-]{1,25}$/;
 
@@ -940,13 +873,16 @@ function passwordValidation(){
 
 
   setTimeout(() => {
-    console.log(document.querySelector(".tally").innerHTML)
-    if(document.querySelector(".tally").innerHTML === ""){
+    if(document.querySelector(".tally")) {
 
-      document.querySelector(".tally").innerHTML = 0
-    } else {
-      document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML
+      if(document.querySelector(".tally").innerHTML === ""){
+
+        document.querySelector(".tally").innerHTML = 0
+      } else {
+        document.querySelector(".tally").innerHTML = document.querySelector(".articleAmount").innerHTML
+      }
     }
+
 
 
 
